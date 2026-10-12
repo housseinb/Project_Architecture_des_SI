@@ -12,7 +12,9 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "vehicule")
@@ -51,20 +53,20 @@ public class Vehicule {
     @Column(nullable = false, length = 20)
     private StatutVehicule statut;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_agence", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Agence agence;
 
     @Builder.Default
-    @OneToMany(mappedBy = "vehicule")
+    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Maintenance> maintenances = new ArrayList<>();
 
     @Builder.Default
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "vehicule_equipement",
             joinColumns = @JoinColumn(name = "id_vehicule"),
@@ -72,10 +74,10 @@ public class Vehicule {
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Equipement> equipements = new ArrayList<>();
+    private Set<Equipement> equipements = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "vehicule")
+    @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Reservation> reservations = new ArrayList<>();

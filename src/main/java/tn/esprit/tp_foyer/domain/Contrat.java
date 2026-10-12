@@ -34,14 +34,14 @@ public class Contrat {
     @Column(nullable = false)
     private boolean valide;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_reservation", nullable = false, unique = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Reservation reservation;
 
     @Builder.Default
-    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Paiement> paiements = new ArrayList<>();

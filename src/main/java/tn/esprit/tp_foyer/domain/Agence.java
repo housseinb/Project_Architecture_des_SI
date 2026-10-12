@@ -36,13 +36,13 @@ public class Agence {
     private String telephone;
 
     @Builder.Default
-    @OneToMany(mappedBy = "agence")
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Employe> employes = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "agence")
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Vehicule> vehicules = new ArrayList<>();

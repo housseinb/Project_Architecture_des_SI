@@ -30,7 +30,7 @@ public class Employe {
     @Column(nullable = false, length = 20)
     private RoleEmploye role;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_agence", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

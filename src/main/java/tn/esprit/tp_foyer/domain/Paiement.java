@@ -33,8 +33,7 @@ public class Paiement {
     @Column(nullable = false, length = 20)
     private ModePaiement modePaiement;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_contrat", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Contrat contrat;
