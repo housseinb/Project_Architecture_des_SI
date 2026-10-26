@@ -1,6 +1,7 @@
 package tn.esprit.tp_foyer.domain;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -37,12 +38,14 @@ public class Agence {
 
     @Builder.Default
     @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Employe> employes = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
+    @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Vehicule> vehicules = new ArrayList<>();

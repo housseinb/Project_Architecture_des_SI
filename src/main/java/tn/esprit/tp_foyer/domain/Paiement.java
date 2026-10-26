@@ -1,6 +1,7 @@
 package tn.esprit.tp_foyer.domain;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public class Paiement {
     private ModePaiement modePaiement;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonBackReference("contrat-paiements")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Contrat contrat;
