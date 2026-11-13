@@ -54,10 +54,8 @@ public class VehiculeServiceImpl implements IVehiculeService {
     @Override
     public Vehicule affecterVehiculeAAgence(Long idVehicule, Long idAgence) {
         Vehicule vehicule = findById(idVehicule);
-
         Agence agence = agenceRepository.findById(idAgence)
                 .orElseThrow(() -> new ResourceNotFoundException("Agence", idAgence));
-
         vehicule.setAgence(agence);
         return vehiculeRepository.save(vehicule);
     }
