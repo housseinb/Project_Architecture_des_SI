@@ -41,6 +41,14 @@ public class VehiculeController {
         return vehiculeService.update(id, vehicule);
     }
 
+    @PutMapping("/{idVehicule}/agence/{idAgence}")
+    @Operation(summary = "Affecter un véhicule à une agence")
+    public Vehicule affecterVehiculeAAgence(
+            @PathVariable Long idVehicule,
+            @PathVariable Long idAgence) {
+        return vehiculeService.affecterVehiculeAAgence(idVehicule, idAgence);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Supprimer un véhicule")

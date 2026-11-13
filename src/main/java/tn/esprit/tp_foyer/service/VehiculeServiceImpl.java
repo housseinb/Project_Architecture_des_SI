@@ -2,8 +2,10 @@ package tn.esprit.tp_foyer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.tp_foyer.domain.Agence;
 import tn.esprit.tp_foyer.domain.Vehicule;
 import tn.esprit.tp_foyer.exception.ResourceNotFoundException;
+import tn.esprit.tp_foyer.repository.IAgenceRepository;
 import tn.esprit.tp_foyer.repository.IVehiculeRepository;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 public class VehiculeServiceImpl implements IVehiculeService {
 
     private final IVehiculeRepository vehiculeRepository;
+    private final IAgenceRepository agenceRepository;
 
     @Override
     public Vehicule create(Vehicule vehicule) {
@@ -46,6 +49,17 @@ public class VehiculeServiceImpl implements IVehiculeService {
         existing.setStatut(vehicule.getStatut());
         existing.setAgence(vehicule.getAgence());
         return vehiculeRepository.save(existing);
+    }
+
+    @Override
+    public Vehicule affecterVehiculeAAgence(Long idVehicule, Long idAgence) {
+        Vehicule vehicule = findById(idVehicule);
+
+        Agence agence = agenceRepository.findById(idAgence)
+                .orElseThrow(() -> new ResourceNotFoundException("Agence", idAgence));
+
+        vehicule.setAgence(agence);
+        return vehiculeRepository.save(vehicule);
     }
 
     @Override
