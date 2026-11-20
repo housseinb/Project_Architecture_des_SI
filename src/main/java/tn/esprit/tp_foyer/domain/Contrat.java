@@ -1,8 +1,6 @@
 package tn.esprit.tp_foyer.domain;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "contrat")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Setter
 @ToString(includeFieldNames = true)
@@ -45,7 +42,6 @@ public class Contrat {
 
     @Builder.Default
     @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference("contrat-paiements")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Paiement> paiements = new ArrayList<>();

@@ -2,9 +2,14 @@ package tn.esprit.tp_foyer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.tp_foyer.domain.Maintenance;
 import tn.esprit.tp_foyer.exception.ResourceNotFoundException;
+import tn.esprit.tp_foyer.domain.Vehicule;
 import tn.esprit.tp_foyer.repository.IMaintenanceRepository;
+import tn.esprit.tp_foyer.repository.IVehiculeRepository;
+import tn.esprit.tp_foyer.web.dto.MaintenanceDTO;
+import tn.esprit.tp_foyer.web.mapper.MaintenanceMapper;
 
 import java.util.List;
 
@@ -13,6 +18,8 @@ import java.util.List;
 public class MaintenanceServiceImpl implements IMaintenanceService {
 
     private final IMaintenanceRepository maintenanceRepository;
+    private final IVehiculeRepository vehiculeRepository;
+    private final MaintenanceMapper maintenanceMapper;
 
     @Override
     public Maintenance create(Maintenance maintenance) {
@@ -43,6 +50,20 @@ public class MaintenanceServiceImpl implements IMaintenanceService {
         existing.setDescription(maintenance.getDescription());
         existing.setVehicule(maintenance.getVehicule());
         return maintenanceRepository.save(existing);
+    }
+
+    @Override
+    @Transactional
+    public MaintenanceDTO affecterMaintenanceAVehicule(MaintenanceDTO dto) {
+        Vehicule vehicule = vehiculeRepository.findById(dto.getIdVehicule())
+                .orElseThrow(() -> new ResourceNotFoundException("Véhicule", dto.getIdVehicule()));
+        Maintenance maintenance = Maintenance.builder()
+                .dateDebut(dto.getDateDebut())
+                .dateFin(dto.getDateFin())
+                .description(dto.getDescription())
+                .vehicule(vehicule)
+                .build();
+        return maintenanceMapper.toDto(maintenanceRepository.save(maintenance));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package tn.esprit.tp_foyer.domain;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -46,7 +45,6 @@ public class Reservation {
     private Client client;
 
     @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Contrat contrat;

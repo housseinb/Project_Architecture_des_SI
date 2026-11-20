@@ -2,11 +2,13 @@ package tn.esprit.tp_foyer.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.tp_foyer.domain.Vehicule;
 import tn.esprit.tp_foyer.service.IVehiculeService;
+import tn.esprit.tp_foyer.web.dto.VehiculeEquipementDTO;
 
 import java.util.List;
 
@@ -47,6 +49,13 @@ public class VehiculeController {
             @PathVariable Long idVehicule,
             @PathVariable Long idAgence) {
         return vehiculeService.affecterVehiculeAAgence(idVehicule, idAgence);
+    }
+
+    @PutMapping("/equipements/affectation")
+    @Operation(summary = "Affecter un équipement à un véhicule")
+    public VehiculeEquipementDTO affecterEquipementAVehicule(
+            @Valid @RequestBody VehiculeEquipementDTO dto) {
+        return vehiculeService.affecterEquipementAVehicule(dto);
     }
 
     @DeleteMapping("/{id}")

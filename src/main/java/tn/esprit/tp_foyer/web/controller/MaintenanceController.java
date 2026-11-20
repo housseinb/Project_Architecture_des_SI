@@ -2,11 +2,13 @@ package tn.esprit.tp_foyer.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.tp_foyer.domain.Maintenance;
 import tn.esprit.tp_foyer.service.IMaintenanceService;
+import tn.esprit.tp_foyer.web.dto.MaintenanceDTO;
 
 import java.util.List;
 
@@ -33,6 +35,14 @@ public class MaintenanceController {
     @Operation(summary = "Créer une maintenance")
     public Maintenance create(@RequestBody Maintenance maintenance) {
         return maintenanceService.create(maintenance);
+    }
+
+    @PostMapping("/affectation")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Affecter une maintenance à un véhicule")
+    public MaintenanceDTO affecterMaintenanceAVehicule(
+            @Valid @RequestBody MaintenanceDTO dto) {
+        return maintenanceService.affecterMaintenanceAVehicule(dto);
     }
 
     @PutMapping("/{id}")

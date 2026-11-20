@@ -1,7 +1,6 @@
 package tn.esprit.tp_foyer.domain;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,7 +61,6 @@ public class Vehicule {
 
     @Builder.Default
     @OneToMany(mappedBy = "vehicule", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Maintenance> maintenances = new ArrayList<>();
@@ -80,7 +78,6 @@ public class Vehicule {
 
     @Builder.Default
     @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY)
-    @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Reservation> reservations = new ArrayList<>();

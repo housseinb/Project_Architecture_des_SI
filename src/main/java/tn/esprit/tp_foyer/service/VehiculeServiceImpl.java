@@ -2,10 +2,15 @@ package tn.esprit.tp_foyer.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.tp_foyer.domain.Agence;
 import tn.esprit.tp_foyer.domain.Vehicule;
 import tn.esprit.tp_foyer.exception.ResourceNotFoundException;
+import tn.esprit.tp_foyer.domain.Equipement;
 import tn.esprit.tp_foyer.repository.IAgenceRepository;
+import tn.esprit.tp_foyer.repository.IEquipementRepository;
+import tn.esprit.tp_foyer.web.dto.VehiculeEquipementDTO;
+import tn.esprit.tp_foyer.web.mapper.VehiculeEquipementMapper;
 import tn.esprit.tp_foyer.repository.IVehiculeRepository;
 
 import java.util.List;
@@ -16,6 +21,8 @@ public class VehiculeServiceImpl implements IVehiculeService {
 
     private final IVehiculeRepository vehiculeRepository;
     private final IAgenceRepository agenceRepository;
+    private final IEquipementRepository equipementRepository;
+    private final VehiculeEquipementMapper vehiculeEquipementMapper;
 
     @Override
     public Vehicule create(Vehicule vehicule) {
@@ -56,8 +63,20 @@ public class VehiculeServiceImpl implements IVehiculeService {
         Vehicule vehicule = findById(idVehicule);
         Agence agence = agenceRepository.findById(idAgence)
                 .orElseThrow(() -> new ResourceNotFoundException("Agence", idAgence));
-        vehicule.setAgence(agence);
+
+        agence.ajouterVehicule(vehicule);
         return vehiculeRepository.save(vehicule);
+    }
+
+    @Override
+    @Transactional
+    public VehiculeEquipementDTO affecterEquipementAVehicule(VehiculeEquipementDTO dto) {
+        Vehicule vehicule = findById(dto.getIdVehicule());
+        Equipement equipement = equipementRepository.findById(dto.getIdEquipement())
+                .orElseThrow(() -> new ResourceNotFoundException("Équipement", dto.getIdEquipement()));
+        vehicule.getEquipements().add(equipement);
+        Vehicule saved = vehiculeRepository.save(vehicule);
+        return vehiculeEquipementMapper.toDto(saved, equipement);
     }
 
     @Override

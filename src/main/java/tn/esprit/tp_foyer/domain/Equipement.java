@@ -1,7 +1,6 @@
 package tn.esprit.tp_foyer.domain;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.HashSet;
@@ -29,7 +28,6 @@ public class Equipement {
 
     @Builder.Default
     @ManyToMany(mappedBy = "equipements", fetch = FetchType.LAZY)
-    @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Vehicule> vehicules = new HashSet<>();
